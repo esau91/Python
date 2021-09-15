@@ -51,7 +51,7 @@ def output_format(input_df, column_names, to_date):
 
     for column in to_date:
         if column in formatted_df.columns:
-            formatted_df[column] = (pd.to_datetime(formatted_df[column])).dt.strftime('%d/%m/%Y')
+            formatted_df[column] = (pd.to_datetime(formatted_df[column])).dt.strftime('%u/%m/%Y')
         else:
             logging.error("The column name '{}' was not found".format(column))
 
@@ -80,13 +80,13 @@ def master_format(input_df, column_names, source):
         'moneda': ['divisa'],
         'clics': ['clics en el enlace'],
         'impresiones': [],
-        'dinero_gastado': ['ingresos', 'costo', 'inversion'],
+        'dinero_gastado': ['ingresos', 'costo', 'importe gastado (mxn)'],
         'duracion_sesion': [],
         'sesiones': [],
         'usuarios': [],
         'usuarios_nuevos': [],
         'rebotes': [],
-        'views': ['reproducciones de video hasta el 100%', 'video reproducido al 100%']
+        'views': ['reproducciones de video hasta el 100%', 'vistas']
             }
     
     master_df = pd.DataFrame(columns= columns_map.keys())
@@ -104,7 +104,9 @@ def master_format(input_df, column_names, source):
 
 def main():
     #To fix: the file must have headers for the 1st run
+    #To add: Facebook file skip first row after header
     #To add: log file | convert xlsx to spreadsheet
+    #To add: validation when column date is already formated
 
     logging.basicConfig(level=logging.DEBUG)
     secrets_file = '' #path to secrets file
@@ -115,15 +117,15 @@ def main():
         'Analytics': {
             'file_name': 'Analytics',
             'sheet_name': 'Raw',
-            'columns': ['campaña', 'contenido del anuncio', 'fecha ga', 'ingresos'],
-            'columns_to_date': ['fecha ga'],
+            'columns': ['campaña', 'google ads: grupo de anuncios', 'contenido del anuncio', 'fecha', 'ingresos', 'duración de la sesión', 'sesiones', 'usuarios', 'usuarios nuevos', 'rebotes', 'número de visitas a páginas'],
+            'columns_to_date': ['fecha'],
             'skip_rows': 0,
             'output_sheet_name': 'analytics'
             },
         'Google Ads Plataforma': {
             'file_name': 'Google Ads Plataforma',
-            'sheet_name': 'Google Ads Plataforma',
-            'columns': ['campaña','grupo de anuncios','día','moneda','clics','impresiones','costo','video reproducido al 100%'],
+            'sheet_name': 'Raw',
+            'columns': ['campaña','grupo de anuncios','día','moneda','clics','impresiones','costo','vistas'],
             'columns_to_date': ['día'],
             'skip_rows': 2,
             'output_sheet_name': 'google_ads_pfm'
@@ -131,14 +133,14 @@ def main():
         'Facebook': {
             'file_name': 'Facebook',
             'sheet_name': 'Raw',
-            'columns': ['nombre de la campaña', 'nombre del conjunto de anuncios', 'nombre del anuncio', 'día', 'divisa', 'clics en el enlace', 'impresiones', 'inversion'],
+            'columns': ['nombre de la campaña', 'nombre del conjunto de anuncios', 'nombre del anuncio', 'día', 'clics en el enlace', 'impresiones', 'importe gastado (mxn)'],
             'columns_to_date': ['día'],
             'skip_rows': 0,
             'output_sheet_name': 'facebook'
             }
     }
     
-    input_source = 'Google Ads Plataforma'
+    input_source = 'Analytics'
 
     client = get_auth(secrets_file)
 
