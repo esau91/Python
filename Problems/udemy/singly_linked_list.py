@@ -52,7 +52,7 @@ class LinkedList:
 			self.head = leader.next
 			
 		elif index >= self.lenght:
-			leader = self.traverse_to_index(index-1)
+			leader = self.traverse_to_index(self.lenght-2)
 			leader.next = None
 		else:
 			leader = self.traverse_to_index(index-1)
@@ -69,14 +69,29 @@ class LinkedList:
 			current = current.next
 			counter += 1
 		return current
-    			
+    
+	def reverse(self):
+		previous = None
+		current = self.head
+		while(current is not None):
+			next = current.next
+			current.next = previous
+			previous = current
+			current = next
+		self.head = previous
+		return self
 
 	def printList(self):
 		temp = self.head
 		while(temp):
-			print(temp.data)
+			if temp.next is None:
+				print('data: {}, next: {}'.format(temp.data, None))
+			else:
+				print('data: {}, next: {}'.format(temp.data, temp.next.data))
 			temp = temp.next
-    			
+    	#while(temp):
+			#print(temp.data)
+			#temp = temp.next
 
 if __name__ == '__main__':
 	ll = LinkedList()
@@ -86,9 +101,12 @@ if __name__ == '__main__':
 	ll.preappend(0)
 	ll.append(4)
 	ll.printList()
-	print(ll.lenght)
+	print('lenght: ', ll.lenght)
 	print('\n')
-	ll.remove(5)
+	ll.remove(10)
 	ll.printList()
-	print(ll.lenght)
+	print('lenght: ', ll.lenght)
+	print('\n')
+	ll.reverse()
+	ll.printList()
 	
