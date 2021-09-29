@@ -1,0 +1,8 @@
+setup.py
+redshift_connector/__init__.py
+redshift_connector/connector.py
+redshift_connector.egg-info/PKG-INFO
+redshift_connector.egg-info/SOURCES.txt
+redshift_connector.egg-info/dependency_links.txt
+redshift_connector.egg-info/requires.txt
+redshift_connector.egg-info/top_level.txt
