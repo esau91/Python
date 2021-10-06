@@ -15,7 +15,7 @@ class LinkedList:
 		if self.head is None:
 			self.head = new_node
 			self.lenght += 1
-			return
+			return self
 
 		last = self.head
 		while(last.next):
