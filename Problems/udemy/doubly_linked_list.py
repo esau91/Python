@@ -76,7 +76,20 @@ class LinkedList:
 			current = current.next
 			counter += 1
 		return current
-    			
+
+	def reverse(self):
+		current = self.head
+
+		while(current):
+			tmp = current.prev
+			current.prev = current.nextß
+			current.next = tmp
+			current = current.prev
+		
+		if tmp:
+			self.head = tmp.prev
+
+		return self 			
 
 	def printList(self):
 		temp = self.head
@@ -103,4 +116,6 @@ if __name__ == '__main__':
 	ll.remove(2)
 	ll.printList()
 	print(ll.lenght)
-	
+	print('\n')
+	ll.reverse()
+	ll.printList()
