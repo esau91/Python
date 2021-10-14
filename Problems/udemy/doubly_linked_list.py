@@ -82,7 +82,7 @@ class LinkedList:
 
 		while(current):
 			tmp = current.prev
-			current.prev = current.nextß
+			current.prev = current.next
 			current.next = tmp
 			current = current.prev
 		
