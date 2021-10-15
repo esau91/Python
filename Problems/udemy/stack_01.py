@@ -28,6 +28,8 @@ class Stack:
     def pop(self):
         if self.lenght == 0:
             return None
+        if self.top == self.bottom:
+            self.bottom = None
         self.top = self.top.next
         self.lenght -= 1
         return self
